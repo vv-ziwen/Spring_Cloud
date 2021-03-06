@@ -1,0 +1,52 @@
+spring:
+  profiles: 9001
+server:
+  port: 9001
+eureka:
+  instance:
+    hostname: peer1
+
+---
+spring:
+  profiles: 9002
+server:
+  port: 9002
+eureka:
+  instance:
+    hostname: peer2
+
+---
+spring:
+  profiles: 9003
+server:
+  port: 9003
+eureka:
+  instance:
+    hostname: peer3
+
+
+---
+spring:
+  application:
+    name: eureka
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      # 2个相互配置，3个全部配置
+      defaultZone: http://peer1/eureka/,http://peer2/eureka/,http://peer3/eureka/
+
+  server:
+    # 自我保护
+    enable-self-preservation: false
+    # 自我保护阈值
+    renewal-percent-threshold: 0.85
+    # 服务剔除时间
+    eviction-interval-timer-in-ms: 1000
+    # 关闭readOnly读注册表
+    use-read-only-response-cache: false
+    # readWrite 和 readOnly 同步时间间隔
+    response-cache-update-interval-ms: 1000
+
